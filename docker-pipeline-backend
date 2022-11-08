@@ -1,0 +1,37 @@
+#BUILD 
+
+FROM node:10-alpine as build
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN npm install
+
+
+#DELIVERY
+
+FROM node:10-alpine as delivery
+
+WORKDIR /usr/src/app
+
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+COPY --from=build /usr/src/app/node_modules/ ./node_modules/
+
+COPY . .
+
+CMD ["node", "server.js"]
+
+
+
+
+
+
+
+
+
+
+
+
+
